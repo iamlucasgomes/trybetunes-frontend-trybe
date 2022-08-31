@@ -8,7 +8,7 @@ class Login extends Component {
     const {
       checkInput,
       handleClick,
-      isButtonDisabled,
+      checkLogin,
       removeLoader,
       redirect,
     } = this.props;
@@ -26,7 +26,7 @@ class Login extends Component {
             value="Entrar"
             data-testid="login-submit-button"
             onClick={ handleClick }
-            disabled={ isButtonDisabled }
+            disabled={ checkLogin }
           />
           {
             removeLoader && <Loading />
@@ -43,7 +43,7 @@ class Login extends Component {
 Login.propTypes = {
   checkInput: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
-  isButtonDisabled: PropTypes.bool.isRequired,
+  checkLogin: PropTypes.bool.isRequired,
   removeLoader: PropTypes.bool.isRequired,
   redirect: PropTypes.bool.isRequired,
 };

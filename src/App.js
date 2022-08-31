@@ -13,7 +13,9 @@ import Header from './components/Header';
 class App extends React.Component {
   state = {
     inputName: '',
-    isButtonDisabled: true,
+    inputSearch: '',
+    checkLogin: true,
+    checkSearch: true,
     removeLoader: false,
     redirect: false,
   };
@@ -24,7 +26,18 @@ class App extends React.Component {
       [name]: value,
     }, () => {
       this.setState({
-        isButtonDisabled: (value.length < Number('3')),
+        checkLogin: (value.length < Number('3')),
+      });
+    });
+  };
+
+  checkInputSearchField = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    }, () => {
+      this.setState({
+        checkSearch: (value.length < Number('2')),
       });
     });
   };
@@ -41,13 +54,20 @@ class App extends React.Component {
   };
 
   render() {
-    const { isButtonDisabled, removeLoader, redirect } = this.state;
+    const { checkLogin, removeLoader, redirect, checkSearch, inputSearch } = this.state;
     return (
       <BrowserRouter>
         <Header removeLoader={ removeLoader } />
         <Switch>
           <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
-          <Route path="/search" component={ Search } />
+          <Route
+            path="/search"
+            render={ () => (<Search
+              checkSearchInput={ this.checkInputSearchField }
+              checkSearch={ checkSearch }
+              inputSearch={ inputSearch }
+            />) }
+          />
           <Route path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />
           <Route exact path="/profile/edit" component={ ProfileEdit } />
@@ -56,7 +76,7 @@ class App extends React.Component {
             path="/"
             render={ () => (<Login
               checkInput={ this.checkInputNameField }
-              isButtonDisabled={ isButtonDisabled }
+              checkLogin={ checkLogin }
               handleClick={ this.handleClick }
               removeLoader={ removeLoader }
               redirect={ redirect }
