@@ -8,6 +8,7 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 import { createUser } from './services/userAPI';
+import Header from './components/Header';
 
 class App extends React.Component {
   state = {
@@ -43,6 +44,7 @@ class App extends React.Component {
     const { isButtonDisabled, removeLoader, redirect } = this.state;
     return (
       <BrowserRouter>
+        <Header removeLoader={ removeLoader } />
         <Switch>
           <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
           <Route path="/search" component={ Search } />
