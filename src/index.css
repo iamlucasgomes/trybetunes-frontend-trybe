@@ -1,3 +1,19 @@
+.loading {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  color: rgba(255, 255, 255, 0);
+  background: white
+    url('https://cdn.dribbble.com/users/210090/screenshots/2978896/loader.gif')
+    no-repeat center center;
+  z-index: 99999;
+}
+
+* {
+  margin-top: 0px;
+  top: 0px;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
