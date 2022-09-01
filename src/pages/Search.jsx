@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import CardAlbum from '../components/CardAlbum';
 
-class Search
-  extends Component {
+class Search extends Component {
   render() {
     const { checkSearchInput,
       checkSearch,
@@ -13,6 +13,7 @@ class Search
       results,
       artistSought,
     } = this.props;
+
     return (
       <div data-testid="page-search">
         <form>
@@ -35,18 +36,28 @@ class Search
           results
           && <p>{`Resultado de álbuns de: ${artistSought}`}</p>
         }
+        {
+          albums.length === 0 && <p>Nenhum álbum foi encontrado</p>
+        }
         { albums.map(({
           artworkUrl100,
           collectionId,
           collectionName,
           artistName,
-        }) => (<CardAlbum
-          key={ collectionId }
-          thumbnail={ artworkUrl100 }
-          collectionId={ collectionId }
-          collection={ collectionName }
-          artist={ artistName }
-        />))}
+        }) => (
+          <Link
+            to={ `/album/${collectionId}` }
+            key={ `key: ${collectionName}` }
+            data-testid={ `link-to-album-${collectionId}` }
+          >
+            <CardAlbum
+              key={ collectionId }
+              thumbnail={ artworkUrl100 }
+              collectionId={ collectionId }
+              collection={ collectionName }
+              artist={ artistName }
+            />
+          </Link>))}
       </div>
     );
   }
@@ -57,13 +68,9 @@ Search.propTypes = {
   checkSearch: PropTypes.bool.isRequired,
   handleClickSearch: PropTypes.func.isRequired,
   inputSearch: PropTypes.string.isRequired,
-};
-
-Search.propTypes = {
   albums: PropTypes.arrayOf.isRequired,
   artistSought: PropTypes.string.isRequired,
   results: PropTypes.bool.isRequired,
-
 };
 
 export default Search;

@@ -64,7 +64,9 @@ class App extends React.Component {
       inputSearch: '',
       albums: await searchAlbumsAPI(inputSearch),
     }, () => {
-      this.setState({ results: true });
+      this.setState({
+        results: true,
+      });
     });
   };
 
