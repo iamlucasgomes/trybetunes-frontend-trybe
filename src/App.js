@@ -9,15 +9,19 @@ import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 import { createUser } from './services/userAPI';
 import Header from './components/Header';
+import searchAlbumsAPI from './services/searchAlbumsAPI';
 
 class App extends React.Component {
   state = {
     inputName: '',
     inputSearch: '',
+    artistSought: '',
     checkLogin: true,
     checkSearch: true,
     removeLoader: false,
     redirect: false,
+    albums: [],
+    results: false,
   };
 
   checkInputNameField = ({ target }) => {
@@ -35,6 +39,7 @@ class App extends React.Component {
     const { name, value } = target;
     this.setState({
       [name]: value,
+      artistSought: value,
     }, () => {
       this.setState({
         checkSearch: (value.length < Number('2')),
@@ -42,7 +47,7 @@ class App extends React.Component {
     });
   };
 
-  handleClick = async () => {
+  handleClickLogin = async () => {
     const { inputName } = this.state;
     this.setState(() => ({
       removeLoader: true,
@@ -53,8 +58,26 @@ class App extends React.Component {
     }));
   };
 
+  handleClickSearch = async () => {
+    const { inputSearch } = this.state;
+    this.setState({
+      inputSearch: '',
+      albums: await searchAlbumsAPI(inputSearch),
+    }, () => {
+      this.setState({ results: true });
+    });
+  };
+
   render() {
-    const { checkLogin, removeLoader, redirect, checkSearch, inputSearch } = this.state;
+    const { checkLogin,
+      removeLoader,
+      redirect,
+      checkSearch,
+      inputSearch,
+      albums,
+      results,
+      artistSought,
+    } = this.state;
     return (
       <BrowserRouter>
         <Header removeLoader={ removeLoader } />
@@ -66,6 +89,10 @@ class App extends React.Component {
               checkSearchInput={ this.checkInputSearchField }
               checkSearch={ checkSearch }
               inputSearch={ inputSearch }
+              handleClickSearch={ this.handleClickSearch }
+              albums={ albums }
+              results={ results }
+              artistSought={ artistSought }
             />) }
           />
           <Route path="/favorites" component={ Favorites } />
@@ -77,7 +104,7 @@ class App extends React.Component {
             render={ () => (<Login
               checkInput={ this.checkInputNameField }
               checkLogin={ checkLogin }
-              handleClick={ this.handleClick }
+              handleClickLogin={ this.handleClickLogin }
               removeLoader={ removeLoader }
               redirect={ redirect }
             />) }
