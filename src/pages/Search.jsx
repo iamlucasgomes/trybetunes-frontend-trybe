@@ -33,8 +33,7 @@ class Search extends Component {
           />
         </form>
         {
-          results
-          && <p>{`Resultado de álbuns de: ${artistSought}`}</p>
+          results && <p>{`Resultado de álbuns de: ${artistSought}`}</p>
         }
         {
           albums.length === 0 && <p>Nenhum álbum foi encontrado</p>
@@ -47,7 +46,7 @@ class Search extends Component {
         }) => (
           <Link
             to={ `/album/${collectionId}` }
-            key={ `key: ${collectionName}` }
+            key={ `key:${collectionId}` }
             data-testid={ `link-to-album-${collectionId}` }
           >
             <CardAlbum
