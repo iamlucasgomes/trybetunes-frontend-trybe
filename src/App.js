@@ -84,7 +84,10 @@ class App extends React.Component {
       <BrowserRouter>
         <Header removeLoader={ removeLoader } />
         <Switch>
-          <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
+          <Route
+            path="/album/:id"
+            render={ (props) => <Album { ...props } /> }
+          />
           <Route
             path="/search"
             render={ () => (<Search
