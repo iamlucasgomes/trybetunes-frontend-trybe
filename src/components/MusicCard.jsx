@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+// import { addSong } from '../services/favoriteSongsAPI';
 
 class MusicCard extends Component {
   render() {
@@ -29,8 +30,6 @@ class MusicCard extends Component {
             </audio>
             <label htmlFor="favorite">
               Favorita
-              {' '}
-              {trackId}
               <input
                 type="checkbox"
                 name="favorite"
