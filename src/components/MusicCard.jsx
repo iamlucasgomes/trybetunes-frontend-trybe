@@ -8,11 +8,13 @@ class MusicCard extends Component {
     removeLoader: false,
   };
 
-  favoriteSong = async () => {
+  favoriteSong = async ({ target }) => {
+    const { album } = this.props;
+    const { name } = target;
     this.setState({
       removeLoader: true,
     });
-    await addSong();
+    await addSong(album.filter(({ trackId }) => trackId === Number(name)));
     this.setState({
       removeLoader: false,
     });
@@ -48,7 +50,7 @@ class MusicCard extends Component {
               Favorita
               <input
                 type="checkbox"
-                name="favorite"
+                name={ trackId }
                 data-testid={ `checkbox-music-${trackId}` }
                 onClick={ this.favoriteSong }
               />
