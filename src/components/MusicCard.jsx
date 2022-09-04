@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
   state = {
     removeLoader: false,
+    favoriteSongs: '',
+    checked: false,
   };
+
+  async componentDidMount() {
+    this.setState({
+      removeLoader: true,
+      favoriteSongs: await getFavoriteSongs(),
+    }, () => {
+      const { album } = this.props;
+      const { favoriteSongs } = this.state;
+      this.setState({
+        removeLoader: false,
+        checked: favoriteSongs.some(({ trackId }) => trackId === album.trackId),
+      });
+    });
+  }
 
   favoriteSong = async ({ target }) => {
     const { album } = this.props;
@@ -22,7 +38,7 @@ class MusicCard extends Component {
 
   render() {
     const { album } = this.props;
-    const { removeLoader } = this.state;
+    const { removeLoader, checked } = this.state;
     return (
       <div>
         {album
@@ -52,7 +68,8 @@ class MusicCard extends Component {
                 type="checkbox"
                 name={ trackId }
                 data-testid={ `checkbox-music-${trackId}` }
-                onClick={ this.favoriteSong }
+                onChange={ this.favoriteSong }
+                checked={ checked }
               />
             </label>
           </div>
