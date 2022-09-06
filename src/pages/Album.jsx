@@ -9,9 +9,7 @@ class Album extends Component {
   };
 
   async componentDidMount() {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
+    const { match: { params: { id } } } = this.props;
     this.setState({
       album: await getMusics(id),
     });
@@ -21,9 +19,23 @@ class Album extends Component {
     const { album } = this.state;
     return (
       <div data-testid="page-album">
-        <MusicCard
+        {album
+          .filter((_, i) => i === 0)
+          .map(({ collectionName, artistName }) => (
+            <section key={ artistName }>
+              <h1 data-testid="album-name">{collectionName}</h1>
+              <h3 data-testid="artist-name">{artistName}</h3>
+            </section>
+          ))}
+        {album
+          .filter((_, i) => i > 0)
+          .map(({ trackName }) => <p key={ trackName }>{trackName}</p>)}
+        {album.filter((_, i) => i > 0).map(({ trackId, previewUrl }) => (<MusicCard
+          key={ trackId }
           album={ album }
-        />
+          trackId={ trackId }
+          previewUrl={ previewUrl }
+        />))}
       </div>
     );
   }
