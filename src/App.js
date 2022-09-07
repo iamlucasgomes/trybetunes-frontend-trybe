@@ -60,7 +60,11 @@ class App extends React.Component {
     this.setState(() => ({
       removeLoader: true,
     }));
-    await createUser({ name: inputName });
+    await createUser(
+      {
+        name: inputName,
+      },
+    );
     this.setState(() => ({
       redirect: true,
     }));
