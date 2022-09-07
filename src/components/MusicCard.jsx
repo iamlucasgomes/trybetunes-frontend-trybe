@@ -16,11 +16,12 @@ class MusicCard extends Component {
       favoriteSongs: await getFavoriteSongs(),
     }, () => {
       const { song } = this.props;
+      const { trackId } = song;
       const { favoriteSongs } = this.state;
       this.setState(
         {
           removeLoader: false,
-          checked: favoriteSongs.some(({ trackId: track }) => track === song.trackId),
+          checked: favoriteSongs.some(({ trackId: track }) => track === trackId),
         },
       );
     });
