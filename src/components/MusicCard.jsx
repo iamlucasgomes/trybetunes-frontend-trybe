@@ -7,36 +7,38 @@ class MusicCard extends Component {
   state = {
     removeLoader: false,
     favoriteSongs: '',
-    checked: false,
+    check: false,
   };
 
   async componentDidMount() {
     this.setState({
       removeLoader: true,
       favoriteSongs: await getFavoriteSongs(),
-    }, () => {
-      const { album } = this.props;
+    }, async () => {
+      const { trackId } = this.props;
       const { favoriteSongs } = this.state;
-      this.setState({
-        removeLoader: false,
-      }, () => this.setState({
-        checked: favoriteSongs.some(({ trackId }) => trackId === album.trackId),
-      }));
+      this.setState(
+        {
+          removeLoader: false,
+          check: favoriteSongs.some(({ trackId: track }) => track === trackId),
+        },
+      );
     });
   }
 
   favoriteSong = async ({ target }) => {
-    const { album } = this.props;
-    const { name, checked } = target;
+    const { trackId } = this.props;
+    const { checked } = target;
+    console.log(trackId);
     this.setState({
       removeLoader: true,
     });
     if (checked) {
-      this.setState({ checked: true });
-      await addSong(album.find(({ trackId }) => trackId === Number(name)));
+      this.setState({ check: true });
+      await addSong(trackId);
     } else {
-      this.setState({ checked: false });
-      await removeSong(album.find(({ trackId }) => trackId === Number(name)));
+      this.setState({ check: false });
+      await removeSong(trackId);
     }
     this.setState({
       removeLoader: false,
@@ -44,11 +46,12 @@ class MusicCard extends Component {
   };
 
   render() {
-    const { trackId, previewUrl } = this.props;
-    const { removeLoader, checked } = this.state;
+    const { trackId, previewUrl, trackName } = this.props;
+    const { removeLoader, check } = this.state;
     return (
       <div>
         <div key={ trackId }>
+          <p key={ trackName }>{trackName}</p>
           <audio data-testid="audio-component" src={ previewUrl } controls>
             <track kind="captions" />
             O seu navegador não suporta o elemento
@@ -64,7 +67,7 @@ class MusicCard extends Component {
               name={ trackId }
               data-testid={ `checkbox-music-${trackId}` }
               onChange={ this.favoriteSong }
-              checked={ checked }
+              checked={ check }
             />
           </label>
         </div>
@@ -75,9 +78,9 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  album: PropTypes.objectOf.isRequired,
   trackId: PropTypes.number.isRequired,
   previewUrl: PropTypes.string.isRequired,
+  trackName: PropTypes.string.isRequired,
 };
 
 export default MusicCard;

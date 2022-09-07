@@ -10,6 +10,7 @@ import NotFound from './pages/NotFound';
 import { createUser } from './services/userAPI';
 import Header from './components/Header';
 import searchAlbumsAPI from './services/searchAlbumsAPI';
+import { getFavoriteSongs } from './services/favoriteSongsAPI';
 
 class App extends React.Component {
   state = {
@@ -22,7 +23,14 @@ class App extends React.Component {
     redirect: false,
     albums: [],
     results: false,
+    favorites: [],
   };
+
+  async componentDidMount() {
+    this.setState({
+      favorites: await getFavoriteSongs(),
+    });
+  }
 
   checkInputNameField = ({ target }) => {
     const { name, value } = target;
@@ -79,10 +87,12 @@ class App extends React.Component {
       albums,
       results,
       artistSought,
+      favorites,
     } = this.state;
     return (
       <BrowserRouter>
         <Header removeLoader={ removeLoader } />
+
         <Switch>
           <Route
             path="/album/:id"
@@ -100,7 +110,10 @@ class App extends React.Component {
               artistSought={ artistSought }
             />) }
           />
-          <Route path="/favorites" component={ Favorites } />
+          <Route
+            path="/favorites"
+            render={ () => (<Favorites favorites={ favorites } />) }
+          />
           <Route exact path="/profile" component={ Profile } />
           <Route exact path="/profile/edit" component={ ProfileEdit } />
           <Route
