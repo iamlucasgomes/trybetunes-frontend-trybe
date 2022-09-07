@@ -29,11 +29,12 @@ class Album extends Component {
           ))}
         {album
           .filter((_, i) => i !== 0)
-          .map(({ trackId, previewUrl, trackName }) => (<MusicCard
-            key={ trackId }
-            trackId={ trackId }
-            trackName={ trackName }
-            previewUrl={ previewUrl }
+          .map((song) => (<MusicCard
+            key={ song.trackId }
+            trackId={ song.trackId }
+            trackName={ song.trackName }
+            previewUrl={ song.previewUrl }
+            song={ song }
           />))}
       </div>
     );

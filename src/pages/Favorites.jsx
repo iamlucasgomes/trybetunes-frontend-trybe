@@ -26,11 +26,13 @@ class Favorites extends Component {
       <div data-testid="page-favorites">
         { removeLoader && <Loading />}
         {favorites
-          .map(({ trackId, previewUrl, trackName }) => (<MusicCard
-            key={ trackId }
-            trackId={ trackId }
-            previewUrl={ previewUrl }
-            trackName={ trackName }
+          .filter((_, i) => i !== 0)
+          .map((song) => (<MusicCard
+            key={ song.trackId }
+            trackId={ song.trackId }
+            trackName={ song.trackName }
+            previewUrl={ song.previewUrl }
+            song={ song }
           />))}
       </div>
     );

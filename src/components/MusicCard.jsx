@@ -7,38 +7,37 @@ class MusicCard extends Component {
   state = {
     removeLoader: false,
     favoriteSongs: '',
-    check: false,
+    checked: false,
   };
 
   async componentDidMount() {
     this.setState({
       removeLoader: true,
       favoriteSongs: await getFavoriteSongs(),
-    }, async () => {
-      const { trackId } = this.props;
+    }, () => {
+      const { song } = this.props;
       const { favoriteSongs } = this.state;
       this.setState(
         {
           removeLoader: false,
-          check: favoriteSongs.some(({ trackId: track }) => track === trackId),
+          checked: favoriteSongs.some(({ trackId: track }) => track === song.trackId),
         },
       );
     });
   }
 
   favoriteSong = async ({ target }) => {
-    const { trackId } = this.props;
+    const { song } = this.props;
     const { checked } = target;
-    console.log(trackId);
     this.setState({
       removeLoader: true,
     });
     if (checked) {
-      this.setState({ check: true });
-      await addSong(trackId);
+      this.setState({ checked: true });
+      await addSong(song);
     } else {
-      this.setState({ check: false });
-      await removeSong(trackId);
+      this.setState({ checked: false });
+      await removeSong(song);
     }
     this.setState({
       removeLoader: false,
@@ -47,7 +46,7 @@ class MusicCard extends Component {
 
   render() {
     const { trackId, previewUrl, trackName } = this.props;
-    const { removeLoader, check } = this.state;
+    const { removeLoader, checked } = this.state;
     return (
       <div>
         <div key={ trackId }>
@@ -67,7 +66,7 @@ class MusicCard extends Component {
               name={ trackId }
               data-testid={ `checkbox-music-${trackId}` }
               onChange={ this.favoriteSong }
-              checked={ check }
+              checked={ checked }
             />
           </label>
         </div>
@@ -78,6 +77,7 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
+  song: PropTypes.objectOf.isRequired,
   trackId: PropTypes.number.isRequired,
   previewUrl: PropTypes.string.isRequired,
   trackName: PropTypes.string.isRequired,
