@@ -20,13 +20,19 @@ class Favorites extends Component {
     });
   }
 
+  async componentDidUpdate(prevProps, prevState) {
+    const { favorites } = this.state;
+    if (prevState.favorites !== favorites) {
+      this.setState({ favorites: await getFavoriteSongs() });
+    }
+  }
+
   render() {
     const { favorites, removeLoader } = this.state;
     return (
       <div data-testid="page-favorites">
         { removeLoader && <Loading />}
         {favorites
-          .filter((_, i) => i !== 0)
           .map((song) => (<MusicCard
             key={ song.trackId }
             trackId={ song.trackId }

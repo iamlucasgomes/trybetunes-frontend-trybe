@@ -67,9 +67,16 @@ Search.propTypes = {
   checkSearch: PropTypes.bool.isRequired,
   handleClickSearch: PropTypes.func.isRequired,
   inputSearch: PropTypes.string.isRequired,
-  albums: PropTypes.arrayOf.isRequired,
   artistSought: PropTypes.string.isRequired,
   results: PropTypes.bool.isRequired,
+  albums: PropTypes.arrayOf(
+    PropTypes.shape({
+      collectionId: PropTypes.number.isRequired,
+      collectionName: PropTypes.string.isRequired,
+      artistName: PropTypes.string.isRequired,
+      artworkUrl100: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Search;
