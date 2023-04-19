@@ -20,7 +20,7 @@ class Favorites extends Component {
     });
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevState) {
     const { favorites } = this.state;
     if (prevState.favorites !== favorites) {
       this.setState({ favorites: await getFavoriteSongs() });
