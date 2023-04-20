@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
+import ProfilePic from '../components/ProfilePic';
 
 class Profile extends Component {
   state = {
@@ -19,10 +20,19 @@ class Profile extends Component {
     return (
       <div data-testid="page-profile">
         <Link to="/profile/edit">Editar perfil</Link>
-        <img src={ image } alt={ name } data-testid="profile-image" />
-        <p>{name}</p>
-        <p>{email}</p>
-        <p>{description}</p>
+        <ProfilePic imageUrl={ image } altText={ name } />
+        <div>
+          <p>Nome:</p>
+          <p>{name}</p>
+        </div>
+        <div>
+          <p>Email:</p>
+          <p>{email}</p>
+        </div>
+        <div>
+          <p>Descrição:</p>
+          <p>{description}</p>
+        </div>
       </div>
     );
   }

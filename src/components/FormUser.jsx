@@ -1,22 +1,47 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import ProfilePic from './ProfilePic';
+import { updateUser, getUser } from '../services/userAPI';
 
 class Formulario extends React.Component {
   state = {
-    foto: '',
-    nome: '',
+    image: '',
+    name: '',
     email: '',
-    descricao: '',
+    description: '',
     hasDisable: true,
+    userData: [],
+    redirect: false,
   };
+
+  async componentDidMount() {
+    const userData = await getUser();
+    this.setState({
+      userData,
+      image: userData.image,
+      name: userData.name,
+      email: userData.email,
+      description: userData.description,
+    });
+  }
+
+  async componentDidUpdate() {
+    this.setState({ userData: await getUser() });
+  }
 
   handleSubmit = (event) => {
     event.preventDefault();
+    const { description, email, image, name } = this.state;
+    updateUser({ description, email, image, name });
+
     this.setState({
-      foto: '',
-      nome: '',
+      image: '',
+      name: '',
       email: '',
-      descricao: '',
+      description: '',
+      hasDisable: true,
+      redirect: true,
     });
   };
 
@@ -28,33 +53,53 @@ class Formulario extends React.Component {
         [name]: value,
       },
       () => {
-        const { descricao, email, foto, nome } = this.state;
+        // eslint-disable-next-line no-shadow
+        const { description, email, image, name } = this.state;
         this.setState({
           hasDisable:
-            descricao.length === 0
+          description.length === 0
             || email.length === 0
-            || foto.length === 0
-            || nome.length === 0,
+            || image.length === 0
+            || name.length === 0,
         });
       },
     );
   };
 
+  // handleImageUpload = (event) => {
+  //   const file = event.target.files[0];
+  //   const imageUrl = URL.createObjectURL(file);
+  //   this.setState({ image: imageUrl });
+  // };
+
   render() {
-    const { nome, email, descricao, foto, hasDisable } = this.state;
+    const {
+      name,
+      description,
+      hasDisable,
+      email,
+      userData,
+      image,
+      redirect,
+    } = this.state;
     return (
       <div>
-        <ProfilePic photoSrc={ foto } altText={ `profile-pic-${nome}` } />
+        <ProfilePic
+          imageUrl={ userData.image }
+          altText={ `profile-pic-${userData.name}` }
+        />
         <form onSubmit={ this.handleSubmit }>
           <label htmlFor="photo">
             Foto:
             <input
               data-testid="edit-input-image"
-              type="file"
+              type="url"
               id="photo"
-              name="foto"
-              value={ foto }
-              onChange={ this.handleInputChange }
+              name="image"
+              value={ image }
+              onChange={ (e) => {
+                this.handleInputChange(e);
+              } }
             />
           </label>
           <br />
@@ -66,8 +111,8 @@ class Formulario extends React.Component {
               data-testid="edit-input-name"
               type="text"
               id="name"
-              name="nome"
-              value={ nome }
+              name="name"
+              value={ name }
               onChange={ this.handleInputChange }
             />
           </label>
@@ -93,8 +138,8 @@ class Formulario extends React.Component {
             <textarea
               data-testid="edit-input-description"
               id="description"
-              name="descricao"
-              value={ descricao }
+              name="description"
+              value={ description }
               onChange={ this.handleInputChange }
             />
           </label>
@@ -109,9 +154,17 @@ class Formulario extends React.Component {
             Salvar
           </button>
         </form>
+        { redirect && <Redirect to="/profile" />}
       </div>
     );
   }
 }
 
 export default Formulario;
+
+Formulario.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+    replace: PropTypes.func.isRequired,
+  }).isRequired,
+};

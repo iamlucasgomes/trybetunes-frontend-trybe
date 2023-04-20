@@ -20,6 +20,13 @@ class Header extends Component {
     }));
   }
 
+  async componentDidUpdate() {
+    const { name } = await getUser();
+    this.setState(() => ({
+      user: name,
+    }));
+  }
+
   render() {
     const { loader, user } = this.state;
     return (
