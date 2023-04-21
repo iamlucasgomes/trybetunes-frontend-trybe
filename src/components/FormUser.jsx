@@ -48,14 +48,11 @@ class FormUser extends React.Component {
   };
 
   handleInputChange = (event) => {
-    const { name, value } = event.target;
-
     this.setState(
       {
-        [name]: value,
+        [event.target.name]: event.target.value,
       },
       () => {
-        // eslint-disable-next-line no-shadow
         const { description, email, image, name } = this.state;
         this.setState({
           hasDisable:
