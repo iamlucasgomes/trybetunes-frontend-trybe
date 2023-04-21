@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Album from './pages/Album';
 import Login from './pages/Login';
@@ -95,7 +96,7 @@ class App extends React.Component {
     } = this.state;
     return (
       <BrowserRouter>
-        <Header removeLoader={ removeLoader } />
+        {/* <Header removeLoader={ removeLoader } /> */}
 
         <Switch>
           <Route
