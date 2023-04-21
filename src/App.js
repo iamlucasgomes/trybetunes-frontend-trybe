@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Album from './pages/Album';
@@ -8,48 +8,26 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-import { createUser } from './services/userAPI';
-import Header from './components/Header';
 import searchAlbumsAPI from './services/searchAlbumsAPI';
 import { getFavoriteSongs } from './services/favoriteSongsAPI';
+import useAppContext from './hooks/useAppContext';
 
 function App() {
-  const [inputName, setInputName] = useState('');
-  const [inputSearch, setInputSearch] = useState('');
-  const [artistSought, setArtistSought] = useState('');
-  const [checkLogin, setCheckLogin] = useState(true);
-  const [checkSearch, setCheckSearch] = useState(true);
-  const [removeLoader, setRemoveLoader] = useState(false);
-  const [redirect, setRedirect] = useState(false);
-  const [albums, setAlbums] = useState([]);
-  const [results, setResults] = useState(false);
-  const [favorites, setFavorites] = useState([]);
-  const three = 3;
+  const { favorites,
+    setFavorites } = useAppContext();
 
   useEffect(() => {
     async function fetchFavoriteSongs() {
       setFavorites(await getFavoriteSongs());
     }
     fetchFavoriteSongs();
-  }, []);
-
-  const checkInputNameField = ({ target }) => {
-    const { value } = target;
-    setInputName(value);
-    setCheckLogin(value.length < three);
-  };
+  }, [setFavorites]);
 
   const checkInputSearchField = ({ target }) => {
     const { value } = target;
     setInputSearch(value);
     setArtistSought(value);
     setCheckSearch(value.length < 2);
-  };
-
-  const handleClickLogin = async () => {
-    setRemoveLoader(true);
-    await createUser({ name: inputName });
-    setRedirect(true);
   };
 
   const handleClickSearch = async () => {
@@ -60,8 +38,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header removeLoader={ removeLoader } />
-
       <Switch>
         <Route path="/album/:id" render={ (props) => <Album { ...props } /> } />
         <Route
@@ -88,13 +64,7 @@ function App() {
           exact
           path="/"
           render={ () => (
-            <Login
-              checkInput={ checkInputNameField }
-              checkLogin={ checkLogin }
-              handleClickLogin={ handleClickLogin }
-              removeLoader={ removeLoader }
-              redirect={ redirect }
-            />
+            <Login />
           ) }
         />
         <Route path="*" component={ NotFound } />

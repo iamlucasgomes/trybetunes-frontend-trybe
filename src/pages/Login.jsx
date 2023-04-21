@@ -1,67 +1,13 @@
-// import PropTypes from 'prop-types';
-// import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-// import Loading from '../components/Loading';
-
-// class Login extends Component {
-//   render() {
-//     const {
-//       checkInput,
-//       handleClickLogin,
-//       checkLogin,
-//       removeLoader,
-//       redirect,
-//     } = this.props;
-//     return (
-//       <div className="flex justify-center mx-20" data-testid="page-login">
-//         <form>
-//           <div>
-//             <input
-//             />
-//           </div>
-//           <div>
-//             <input
-//               type="button"
-//               value="Entrar"
-//               data-testid="login-submit-button"
-//               onClick={ handleClickLogin }
-//               disabled={ checkLogin }
-//             />
-//           </div>
-//           {
-//             removeLoader && <Loading />
-//           }
-//           {
-//             redirect && <Redirect to="/search" />
-//           }
-//         </form>
-//       </div>
-//     );
-//   }
-// }
-
-// Login.propTypes = {
-//   checkInput: PropTypes.func.isRequired,
-//   handleClickLogin: PropTypes.func.isRequired,
-//   checkLogin: PropTypes.bool.isRequired,
-//   removeLoader: PropTypes.bool.isRequired,
-//   redirect: PropTypes.bool.isRequired,
-// };
-
-// export default Login;
-
 import React from 'react';
-import PropTypes from 'prop-types';
 import trybetunes from '../images/trybetunes.png';
 import FormEnter from '../components/FormEnter';
+import useAppContext from '../hooks/useAppContext';
 
-function Login(props) {
-  const {
-    checkInput,
-    handleClickLogin,
+function Login() {
+  const { checkInput,
     checkLogin,
-    redirect,
-  } = props;
+  } = useAppContext();
+
   return (
     <div
       className="flex flex-wrap min-h-screen
@@ -76,7 +22,6 @@ function Login(props) {
             <img src={ trybetunes } alt="logo" />
             <FormEnter
               checkInput={ checkInput }
-              handleClickLogin={ handleClickLogin }
               checkLogin={ checkLogin }
             />
           </div>
@@ -94,18 +39,8 @@ function Login(props) {
           />
         </div>
       </div>
-      {
-        redirect && <Redirect to="/search" />
-      }
     </div>
   );
 }
 
 export default Login;
-
-Login.propTypes = {
-  checkInput: PropTypes.func.isRequired,
-  handleClickLogin: PropTypes.func.isRequired,
-  checkLogin: PropTypes.bool.isRequired,
-  redirect: PropTypes.bool.isRequired,
-};
