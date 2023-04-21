@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import ProfilePic from './ProfilePic';
 import { updateUser, getUser } from '../services/userAPI';
+import Loading from './Loading';
 
-class Formulario extends React.Component {
+class FormUser extends React.Component {
   state = {
     image: '',
     name: '',
@@ -13,6 +13,7 @@ class Formulario extends React.Component {
     hasDisable: true,
     userData: [],
     redirect: false,
+    isLoading: true,
   };
 
   async componentDidMount() {
@@ -23,6 +24,7 @@ class Formulario extends React.Component {
       name: userData.name,
       email: userData.email,
       description: userData.description,
+      isLoading: false,
     });
   }
 
@@ -81,6 +83,7 @@ class Formulario extends React.Component {
       userData,
       image,
       redirect,
+      isLoading,
     } = this.state;
     return (
       <div>
@@ -88,83 +91,76 @@ class Formulario extends React.Component {
           imageUrl={ userData.image }
           altText={ `profile-pic-${userData.name}` }
         />
-        <form onSubmit={ this.handleSubmit }>
-          <label htmlFor="photo">
-            Foto:
-            <input
-              data-testid="edit-input-image"
-              type="url"
-              id="photo"
-              name="image"
-              value={ image }
-              onChange={ (e) => {
-                this.handleInputChange(e);
-              } }
-            />
-          </label>
-          <br />
-          <br />
+        <label htmlFor="photo">
+          Foto:
+          <input
+            data-testid="edit-input-image"
+            type="url"
+            id="photo"
+            name="image"
+            value={ image }
+            onChange={ (e) => {
+              this.handleInputChange(e);
+            } }
+          />
+        </label>
+        <br />
+        <br />
 
-          <label htmlFor="name">
-            Nome:
-            <input
-              data-testid="edit-input-name"
-              type="text"
-              id="name"
-              name="name"
-              value={ name }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <br />
-          <br />
+        <label htmlFor="name">
+          Nome:
+          <input
+            data-testid="edit-input-name"
+            type="text"
+            id="name"
+            name="name"
+            value={ name }
+            onChange={ this.handleInputChange }
+          />
+        </label>
+        <br />
+        <br />
 
-          <label htmlFor="email">
-            Email:
-            <input
-              data-testid="edit-input-email"
-              type="email"
-              id="email"
-              name="email"
-              value={ email }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <br />
-          <br />
+        <label htmlFor="email">
+          Email:
+          <input
+            data-testid="edit-input-email"
+            type="email"
+            id="email"
+            name="email"
+            value={ email }
+            onChange={ this.handleInputChange }
+          />
+        </label>
+        <br />
+        <br />
 
-          <label htmlFor="description">
-            Descrição:
-            <textarea
-              data-testid="edit-input-description"
-              id="description"
-              name="description"
-              value={ description }
-              onChange={ this.handleInputChange }
-            />
-          </label>
-          <br />
-          <br />
+        <label htmlFor="description">
+          Descrição:
+          <textarea
+            data-testid="edit-input-description"
+            id="description"
+            name="description"
+            value={ description }
+            onChange={ this.handleInputChange }
+          />
+        </label>
+        <br />
+        <br />
 
-          <button
-            disabled={ hasDisable }
-            data-testid="edit-button-save"
-            type="submit"
-          >
-            Salvar
-          </button>
-        </form>
+        <button
+          disabled={ hasDisable }
+          data-testid="edit-button-save"
+          type="button"
+          onClick={ this.handleSubmit }
+        >
+          Salvar
+        </button>
+        {isLoading && <Loading />}
         { redirect && <Redirect to="/profile" />}
       </div>
     );
   }
 }
 
-export default Formulario;
-
-Formulario.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-    replace: PropTypes.func.isRequired,
-  }).isRequired,
-};
+export default FormUser;
