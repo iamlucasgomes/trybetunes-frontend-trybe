@@ -17,6 +17,7 @@ function Provider({ children }) {
   const [albums, setAlbums] = useState([]);
   const [results, setResults] = useState(false);
   const [favorites, setFavorites] = useState([]);
+  const [hasAlbum, setHasAlbum] = useState(false);
 
   const contextValue = useMemo(() => ({
     inputName,
@@ -39,6 +40,8 @@ function Provider({ children }) {
     setResults,
     favorites,
     setFavorites,
+    hasAlbum,
+    setHasAlbum,
   }), [
     albums,
     artistSought,
@@ -50,6 +53,7 @@ function Provider({ children }) {
     redirect,
     removeLoader,
     results,
+    hasAlbum,
   ]);
 
   return (

@@ -9,6 +9,7 @@ function Search() {
   const {
     albums,
     artistSought,
+    hasAlbum,
   } = useAppContext();
 
   return (
@@ -20,14 +21,11 @@ function Search() {
           albums.length > 0
           && <p className="text-xl font-semibold text-white">
             {`Resultado de álbuns de: ${artistSought}`}
-             </p>
+          </p>
         }
         {
-          albums === []
-          && <p
-            className="text-xl font-semibold
-          text-gray-800"
-          >
+          hasAlbum
+          && <p className="text-xl font-semibold text-white">
             Nenhum álbum foi encontrado
           </p>
         }

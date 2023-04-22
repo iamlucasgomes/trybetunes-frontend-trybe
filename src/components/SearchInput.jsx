@@ -7,16 +7,17 @@ export default function SearchInput() {
     inputSearch,
     setInputSearch,
     setArtistSought,
-    setResults,
+    setHasAlbum,
   } = useAppContext();
 
   const two = 2;
 
   const handleClickSearch = async () => {
-    setAlbums(await searchAlbumsAPI(inputSearch));
+    const album = await searchAlbumsAPI(inputSearch);
+    await setAlbums(album);
     setArtistSought(inputSearch);
     setInputSearch('');
-    setResults(true);
+    setHasAlbum(album.length === 0);
   };
 
   const inputSrc = ({ target }) => {
