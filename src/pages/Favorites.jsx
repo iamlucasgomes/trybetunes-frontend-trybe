@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
+import Header from '../components/Header';
 
 class Favorites extends Component {
   state = {
@@ -30,16 +31,20 @@ class Favorites extends Component {
   render() {
     const { favorites, removeLoader } = this.state;
     return (
-      <div data-testid="page-favorites">
-        { removeLoader && <Loading />}
-        {favorites
-          .map((song) => (<MusicCard
-            key={ song.trackId }
-            trackId={ song.trackId }
-            trackName={ song.trackName }
-            previewUrl={ song.previewUrl }
-            song={ song }
-          />))}
+      <div>
+        <Header />
+
+        <div data-testid="page-favorites">
+          { removeLoader && <Loading />}
+          {favorites
+            .map((song) => (<MusicCard
+              key={ song.trackId }
+              trackId={ song.trackId }
+              trackName={ song.trackName }
+              previewUrl={ song.previewUrl }
+              song={ song }
+            />))}
+        </div>
       </div>
     );
   }
