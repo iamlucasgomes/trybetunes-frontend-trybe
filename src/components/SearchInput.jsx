@@ -31,11 +31,10 @@ export default function SearchInput() {
           <input
             type="text"
             className="w-full bg-white pl-2 text-base font-semibold outline-0"
-            placeholder=""
+            placeholder="Procure seu artista"
             data-testid="search-artist-input"
             onChange={ ({ target }) => inputSrc({ target }) }
             value={ inputSearch }
-            id=""
           />
           <input
             type="button"
