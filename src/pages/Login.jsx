@@ -11,7 +11,7 @@ function Login() {
   return (
     <div
       className="flex flex-wrap min-h-screen
-    w-full content-center justify-center bg-gray-200 py-10"
+    w-full content-center justify-center bg-black py-10"
     >
       <div className="flex shadow-md">
         <div

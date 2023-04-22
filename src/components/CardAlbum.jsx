@@ -7,7 +7,7 @@ class CardAlbum extends Component {
     return (
       <div key={ collectionId }>
         <img
-          className="object-cover w-full h-56 rounded-lg lg:w-full"
+          className="object-cover w-full h-56 rounded-lg lg:w-64"
           src={ thumbnail }
           alt={ collectionId }
         />

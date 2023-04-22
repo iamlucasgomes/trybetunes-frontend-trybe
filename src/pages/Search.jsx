@@ -12,18 +12,15 @@ function Search() {
   } = useAppContext();
 
   return (
-    <div className="bg-gray-900" data-testid="page-search">
+    <div data-testid="page-search">
       <Header />
       <SearchInput />
       <section className="p-5">
         {
           albums.length > 0
           && <p className="text-xl font-semibold text-white">
-            {' '}
-            {`Resultado de álbuns de: 
-          ${artistSought}`}
-
-          </p>
+            {`Resultado de álbuns de: ${artistSought}`}
+             </p>
         }
         {
           albums === []
@@ -32,9 +29,12 @@ function Search() {
           text-gray-800"
           >
             Nenhum álbum foi encontrado
-             </p>
+          </p>
         }
-        <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-5">
+        <div
+          className="grid grid-cols-1 gap-8
+        mt-8 md:mt-16 md:grid-cols-2 lg:mt-16 lg:grid-cols-5"
+        >
           { albums.map(({
             artworkUrl100,
             collectionId,
