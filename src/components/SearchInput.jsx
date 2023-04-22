@@ -25,8 +25,8 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="flex bg-gray-200 items-center justify-center p-5">
-      <div className="w-full rounded-lg bg-gray-200 p-5 w-2/4">
+    <div className="flex bg-gray-900 items-center justify-center p-5">
+      <div className="rounded-lg bg-gray-200 p-5 w-2/4">
         <div className="flex">
           <input
             type="text"
