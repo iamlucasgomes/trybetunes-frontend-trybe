@@ -8,7 +8,6 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-import searchAlbumsAPI from './services/searchAlbumsAPI';
 import { getFavoriteSongs } from './services/favoriteSongsAPI';
 import useAppContext from './hooks/useAppContext';
 
@@ -23,19 +22,6 @@ function App() {
     fetchFavoriteSongs();
   }, [setFavorites]);
 
-  const checkInputSearchField = ({ target }) => {
-    const { value } = target;
-    setInputSearch(value);
-    setArtistSought(value);
-    setCheckSearch(value.length < 2);
-  };
-
-  const handleClickSearch = async () => {
-    setAlbums(await searchAlbumsAPI(inputSearch));
-    setInputSearch('');
-    setResults(true);
-  };
-
   return (
     <BrowserRouter>
       <Switch>
@@ -43,15 +29,7 @@ function App() {
         <Route
           path="/search"
           render={ () => (
-            <Search
-              checkSearchInput={ checkInputSearchField }
-              checkSearch={ checkSearch }
-              inputSearch={ inputSearch }
-              handleClickSearch={ handleClickSearch }
-              albums={ albums }
-              results={ results }
-              artistSought={ artistSought }
-            />
+            <Search />
           ) }
         />
         <Route

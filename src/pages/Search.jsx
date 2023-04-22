@@ -1,82 +1,47 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import CardAlbum from '../components/CardAlbum';
+import useAppContext from '../hooks/useAppContext';
+import Header from '../components/Header';
+import SearchInput from '../components/SearchInput';
 
-class Search extends Component {
-  render() {
-    const { checkSearchInput,
-      checkSearch,
-      handleClickSearch,
-      inputSearch,
-      albums,
-      results,
-      artistSought,
-    } = this.props;
+function Search() {
+  const {
+    albums,
+    artistSought,
+  } = useAppContext();
 
-    return (
-      <div data-testid="page-search">
-        <form>
-          <input
-            type="text"
-            name="inputSearch"
-            data-testid="search-artist-input"
-            onChange={ checkSearchInput }
-            value={ inputSearch }
+  return (
+    <div data-testid="page-search">
+      <Header />
+      <SearchInput />
+      {
+        albums.length > 0 && <p>{`Resultado de álbuns de: ${artistSought}`}</p>
+      }
+      {
+        albums === [] && <p>Nenhum álbum foi encontrado</p>
+      }
+      { albums.map(({
+        artworkUrl100,
+        collectionId,
+        collectionName,
+        artistName,
+      }) => (
+        <Link
+          to={ `/album/${collectionId}` }
+          key={ `key:${collectionId}` }
+          data-testid={ `link-to-album-${collectionId}` }
+        >
+          <CardAlbum
+            key={ collectionId }
+            thumbnail={ artworkUrl100 }
+            collectionId={ collectionId }
+            collection={ collectionName }
+            artist={ artistName }
           />
-          <input
-            type="button"
-            value="Pesquisar"
-            data-testid="search-artist-button"
-            onClick={ handleClickSearch }
-            disabled={ checkSearch }
-          />
-        </form>
-        {
-          results && <p>{`Resultado de álbuns de: ${artistSought}`}</p>
-        }
-        {
-          albums.length === 0 && <p>Nenhum álbum foi encontrado</p>
-        }
-        { albums.map(({
-          artworkUrl100,
-          collectionId,
-          collectionName,
-          artistName,
-        }) => (
-          <Link
-            to={ `/album/${collectionId}` }
-            key={ `key:${collectionId}` }
-            data-testid={ `link-to-album-${collectionId}` }
-          >
-            <CardAlbum
-              key={ collectionId }
-              thumbnail={ artworkUrl100 }
-              collectionId={ collectionId }
-              collection={ collectionName }
-              artist={ artistName }
-            />
-          </Link>))}
-      </div>
-    );
-  }
+        </Link>))}
+    </div>
+  );
 }
-
-Search.propTypes = {
-  checkSearchInput: PropTypes.func.isRequired,
-  checkSearch: PropTypes.bool.isRequired,
-  handleClickSearch: PropTypes.func.isRequired,
-  inputSearch: PropTypes.string.isRequired,
-  artistSought: PropTypes.string.isRequired,
-  results: PropTypes.bool.isRequired,
-  albums: PropTypes.arrayOf(
-    PropTypes.shape({
-      collectionId: PropTypes.number.isRequired,
-      collectionName: PropTypes.string.isRequired,
-      artistName: PropTypes.string.isRequired,
-      artworkUrl100: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};
 
 export default Search;

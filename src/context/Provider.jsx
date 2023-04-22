@@ -9,7 +9,7 @@ export const options = [
 function Provider({ children }) {
   const [inputName, setInputName] = useState('');
   const [inputSearch, setInputSearch] = useState('');
-  const [artistSought, setArtistSought] = useState('');
+  const [artistSought, setArtistSought] = useState(false);
   const [checkLogin, setCheckLogin] = useState(true);
   const [checkSearch, setCheckSearch] = useState(true);
   const [removeLoader, setRemoveLoader] = useState(false);
