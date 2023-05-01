@@ -25,7 +25,7 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="flex bg-gray-900 items-center justify-center p-5">
+    <div className="flex items-center justify-center p-5">
       <div className="rounded-lg bg-gray-200 p-5 w-2/4">
         <div className="flex">
           <input
@@ -41,7 +41,7 @@ export default function SearchInput() {
             value="Buscar"
             className="p-2 rounded-tr-lg rounded-br-lg
           text-white font-semibold transition-colors
-          bg-orange-500 hover:bg-orange-900"
+          bg-yellow hover:bg-amber-500"
             data-testid="search-artist-button"
             onClick={ handleClickSearch }
             disabled={ inputSearch.length < two }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormUser from '../components/FormUser';
 import Loading from '../components/Loading';
+import Header from '../components/Header';
 
 class ProfileEdit
   extends Component {
@@ -18,6 +19,7 @@ class ProfileEdit
     const { isLoading } = this.state;
     return (
       <div data-testid="page-profile-edit">
+        <Header />
         {isLoading && <Loading />}
         <FormUser />
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import trybetunes from '../images/trybetunes.png';
+import trybetunes from '../images/logo.png';
 import FormEnter from '../components/FormEnter';
 import useAppContext from '../hooks/useAppContext';
 
@@ -11,7 +11,7 @@ function Login() {
   return (
     <div
       className="flex flex-wrap min-h-screen
-    w-full content-center justify-center bg-gray-200 py-10"
+    w-full content-center justify-center py-10"
     >
       <div className="flex shadow-md">
         <div

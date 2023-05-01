@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import ProfilePic from '../components/ProfilePic';
 import Loading from '../components/Loading';
+import Header from '../components/Header';
 
 class Profile extends Component {
   state = {
@@ -22,6 +23,7 @@ class Profile extends Component {
     const { name, image, description, email } = userData;
     return (
       <main data-testid="page-profile">
+        <Header />
         <section>
           <div>
             <ProfilePic imageUrl={ image } altText={ name } />

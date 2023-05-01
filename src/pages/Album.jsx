@@ -18,14 +18,16 @@ class Album extends Component {
 
   render() {
     const { album } = this.state;
+    console.log(album.at(0));
     return (
       <div>
         <Header />
-        <div data-testid="page-album">
+        <div data-testid="page-album" className="dark:text-white">
           {album
             .filter((_, i) => i === 0)
-            .map(({ collectionName, artistName }) => (
+            .map(({ collectionName, artistName, artworkUrl100 }) => (
               <section key={ artistName }>
+                <image src={ artworkUrl100 } alt={ `artwork ${collectionName}` } />
                 <h1 data-testid="album-name">{collectionName}</h1>
                 <h3 data-testid="artist-name">{artistName}</h3>
               </section>

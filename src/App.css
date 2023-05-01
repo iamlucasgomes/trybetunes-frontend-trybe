@@ -3,5 +3,18 @@
 @tailwind utilities;
 
 body {
-  background-color: rgb(17,24,39);
+  /* background-color: #242430; */
+  background-color: black;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.bg-blue {
+  background-color: #4ec3e0;
+}
+
+.bg-yellow {
+  background-color: #ffb400;
 }
