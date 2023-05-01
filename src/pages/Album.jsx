@@ -1,50 +1,46 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
 import Header from '../components/Header';
 
-class Album extends Component {
-  state = {
-    album: [],
-  };
+function Album(props) {
+  const [album, setAlbum] = useState([]);
 
-  async componentDidMount() {
-    const { match: { params: { id } } } = this.props;
-    this.setState({
-      album: await getMusics(id),
-    });
-  }
+  useEffect(() => {
+    const fetchAlbum = async () => {
+      const { match: { params: { id } } } = props;
+      const albumData = await getMusics(id);
+      setAlbum(albumData);
+    };
+    fetchAlbum();
+  }, [props]);
 
-  render() {
-    const { album } = this.state;
-    console.log(album.at(0));
-    return (
-      <div>
-        <Header />
-        <div data-testid="page-album" className="dark:text-white">
-          {album
-            .filter((_, i) => i === 0)
-            .map(({ collectionName, artistName, artworkUrl100 }) => (
-              <section key={ artistName }>
-                <image src={ artworkUrl100 } alt={ `artwork ${collectionName}` } />
-                <h1 data-testid="album-name">{collectionName}</h1>
-                <h3 data-testid="artist-name">{artistName}</h3>
-              </section>
-            ))}
-          {album
-            .filter((_, i) => i !== 0)
-            .map((song) => (<MusicCard
-              key={ song.trackId }
-              trackId={ song.trackId }
-              trackName={ song.trackName }
-              previewUrl={ song.previewUrl }
-              song={ song }
-            />))}
-        </div>
+  return (
+    <div>
+      <Header />
+      <div data-testid="page-album" className="dark:text-white">
+        {album
+          .filter((_, i) => i === 0)
+          .map(({ collectionName, artistName, artworkUrl100 }) => (
+            <section key={ artistName }>
+              <img src={ artworkUrl100 } alt={ `artwork ${collectionName}` } />
+              <h1 data-testid="album-name">{collectionName}</h1>
+              <h3 data-testid="artist-name">{artistName}</h3>
+            </section>
+          ))}
+        {album
+          .filter((_, i) => i !== 0)
+          .map((song) => (<MusicCard
+            key={ song.trackId }
+            trackId={ song.trackId }
+            trackName={ song.trackName }
+            previewUrl={ song.previewUrl }
+            song={ song }
+          />))}
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Album;
